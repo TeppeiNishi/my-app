@@ -1,41 +1,45 @@
 "use client";
 
 import { useState } from "react";
-
 import { Button, List, Stack, TextField, Typography } from "@mui/material";
 import { TodoItem } from "../components/TodoItem";
-import { Todo } from "../types/todo";
+import { setTodoList } from "@/lib/features/todo/todoSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 export function TodoView() {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
+  const todoList = useAppSelector((state) => state.todo.todoList);
+  const dispatch = useAppDispatch();
 
   const handleAddTodo = () => {
     if (newTodo.trim() === "") return;
-    const newTask: Todo = {
-      id: Date.now(),
-      text: newTodo,
-      completed: false,
-    };
-    setTodoList([...todoList, newTask]);
+    const updatedTodoList = [
+      ...todoList,
+      {
+        id: Date.now(),
+        text: newTodo,
+        completed: false,
+      },
+    ];
+    dispatch(setTodoList(updatedTodoList));
     setNewTodo("");
   };
 
   const handleToggleComplete = (id: number) => {
-    setTodoList(
-      todoList.map((todo) =>
-        todo.id === id
-          ? {
-              ...todo,
-              completed: !todo.completed,
-            }
-          : todo
-      )
+    const updatedTodoList = todoList.map((todo) =>
+      todo.id === id
+        ? {
+            ...todo,
+            completed: !todo.completed,
+          }
+        : todo
     );
+    dispatch(setTodoList(updatedTodoList));
   };
 
   const handleDeleteTodo = (id: number) => {
-    setTodoList(todoList.filter((todo) => todo.id !== id));
+    const updatedTodoList = todoList.filter((todo) => todo.id !== id);
+    dispatch(setTodoList(updatedTodoList));
   };
 
   return (
