@@ -2,24 +2,12 @@
 
 import { useState } from "react";
 
-import {
-  Button,
-  Checkbox,
-  List,
-  ListItem,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-type Todo = {
-  id: number;
-  text: string;
-  completed: boolean;
-};
+import { Button, List, Stack, TextField, Typography } from "@mui/material";
+import { TodoItem } from "../components/TodoItem";
+import { Todo } from "../types/todo";
 
 export function TodoView() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todoList, setTodoList] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
 
   const handleAddTodo = () => {
@@ -29,13 +17,13 @@ export function TodoView() {
       text: newTodo,
       completed: false,
     };
-    setTodos([...todos, newTask]);
+    setTodoList([...todoList, newTask]);
     setNewTodo("");
   };
 
   const handleToggleComplete = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
+    setTodoList(
+      todoList.map((todo) =>
         todo.id === id
           ? {
               ...todo,
@@ -47,7 +35,7 @@ export function TodoView() {
   };
 
   const handleDeleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodoList(todoList.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -74,38 +62,13 @@ export function TodoView() {
       </Stack>
 
       <List>
-        {todos.map((todo) => (
-          <ListItem key={todo.id}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              spacing={2}
-              sx={{
-                width: "100%",
-              }}
-            >
-              <Checkbox
-                checked={todo.completed}
-                onChange={() => handleToggleComplete(todo.id)}
-              />
-              <Typography
-                sx={{
-                  textDecoration: todo.completed ? "line-through" : "none",
-                  width: "100%",
-                }}
-              >
-                {todo.text}
-              </Typography>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleDeleteTodo(todo.id)}
-              >
-                Delete
-              </Button>
-            </Stack>
-          </ListItem>
+        {todoList.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggleComplete={() => handleToggleComplete(todo.id)}
+            onDelete={() => handleDeleteTodo(todo.id)}
+          />
         ))}
       </List>
     </Stack>
