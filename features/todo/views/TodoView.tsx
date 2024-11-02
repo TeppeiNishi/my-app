@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, List, Stack, TextField, Typography } from "@mui/material";
+import { Button, List, TextField } from "@mui/material";
 import { TodoItem } from "../components/TodoItem";
 import { setTodoList } from "@/lib/features/todo/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -43,17 +43,10 @@ export function TodoView() {
   };
 
   return (
-    <Stack
-      spacing={2}
-      sx={{
-        p: 3,
-        maxWidth: 600,
-        m: "0 auto",
-      }}
-    >
-      <Typography variant="h4">Todo List</Typography>
+    <div className="flex flex-col gap-4 p-6 max-w-xl mx-auto">
+      <h1 className="text-3xl">Todo List</h1>
 
-      <Stack direction="row" spacing={2}>
+      <div className="flex flex-row gap-4">
         <TextField
           value={newTodo}
           placeholder="Add a new task"
@@ -63,7 +56,7 @@ export function TodoView() {
         <Button variant="contained" onClick={handleAddTodo}>
           Add
         </Button>
-      </Stack>
+      </div>
 
       <List>
         {todoList.map((todo) => (
@@ -75,6 +68,6 @@ export function TodoView() {
           />
         ))}
       </List>
-    </Stack>
+    </div>
   );
 }
