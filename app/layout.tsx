@@ -1,4 +1,5 @@
-import { AppSidebar } from '@/components/app-sidebar'
+import { AppSidebar } from '@/components/AppSidebar'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -27,19 +28,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <StoreProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="flex-1 w-full">
-              <SidebarTrigger />
-              {children}
-            </main>
-          </SidebarProvider>
-        </StoreProvider>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <StoreProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <main className="flex-1 w-full">
+                <SidebarTrigger />
+                {children}
+              </main>
+            </SidebarProvider>
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
