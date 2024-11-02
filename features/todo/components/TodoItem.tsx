@@ -1,4 +1,5 @@
-import { Button, Checkbox, Typography } from "@mui/material";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button, Typography } from "@mui/material";
 import { Todo } from "../types/todo";
 
 type TodoItemProps = Readonly<{
@@ -12,7 +13,7 @@ export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
     <li className="flex items-center gap-2">
       <Checkbox
         checked={todo.completed}
-        onChange={() => onToggleComplete(todo.id)}
+        onCheckedChange={() => onToggleComplete(todo.id)}
       />
       <Typography
         sx={{
