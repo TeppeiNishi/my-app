@@ -7,14 +7,5 @@ export function ThemeProvider({
   children,
   ...props
 }: Readonly<ThemeProviderProps>) {
-  return (
-    <NextThemesProvider
-      {...props}
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-    >
-      {children}
-    </NextThemesProvider>
-  )
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }
