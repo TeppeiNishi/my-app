@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-import { TodoItem } from "../components/TodoItem";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { setTodoList } from "@/lib/features/todo/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { TodoItem } from "../components/TodoItem";
 
 export function TodoView() {
   const [newTodo, setNewTodo] = useState("");

@@ -1,4 +1,4 @@
-import { Button, Checkbox, ListItem, Stack, Typography } from "@mui/material";
+import { Button, Checkbox, Stack, Typography } from "@mui/material";
 import { Todo } from "../types/todo";
 
 type TodoItemProps = Readonly<{
@@ -9,7 +9,7 @@ type TodoItemProps = Readonly<{
 
 export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
   return (
-    <ListItem>
+    <li>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -39,6 +39,6 @@ export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
           Delete
         </Button>
       </Stack>
-    </ListItem>
+    </li>
   );
 }
