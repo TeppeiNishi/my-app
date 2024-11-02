@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { List } from "@mui/material";
+
 import { TodoItem } from "../components/TodoItem";
 import { setTodoList } from "@/lib/features/todo/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -57,7 +57,7 @@ export function TodoView() {
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
 
-      <List>
+      <ul>
         {todoList.map((todo) => (
           <TodoItem
             key={todo.id}
@@ -66,7 +66,7 @@ export function TodoView() {
             onDelete={() => handleDeleteTodo(todo.id)}
           />
         ))}
-      </List>
+      </ul>
     </div>
   );
 }
