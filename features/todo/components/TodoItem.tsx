@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@mui/material";
 import { Todo } from "../types/todo";
 
 type TodoItemProps = Readonly<{
@@ -19,7 +19,7 @@ export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
         {todo.text}
       </p>
       <Button
-        variant="outlined"
+        variant="destructive"
         color="error"
         onClick={() => onDelete(todo.id)}
       >
