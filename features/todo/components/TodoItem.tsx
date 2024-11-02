@@ -1,4 +1,4 @@
-import { Button, Checkbox, Stack, Typography } from "@mui/material";
+import { Button, Checkbox, Typography } from "@mui/material";
 import { Todo } from "../types/todo";
 
 type TodoItemProps = Readonly<{
@@ -9,36 +9,26 @@ type TodoItemProps = Readonly<{
 
 export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
   return (
-    <li>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={2}
+    <li className="flex items-center gap-2">
+      <Checkbox
+        checked={todo.completed}
+        onChange={() => onToggleComplete(todo.id)}
+      />
+      <Typography
         sx={{
+          textDecoration: todo.completed ? "line-through" : "none",
           width: "100%",
         }}
       >
-        <Checkbox
-          checked={todo.completed}
-          onChange={() => onToggleComplete(todo.id)}
-        />
-        <Typography
-          sx={{
-            textDecoration: todo.completed ? "line-through" : "none",
-            width: "100%",
-          }}
-        >
-          {todo.text}
-        </Typography>
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => onDelete(todo.id)}
-        >
-          Delete
-        </Button>
-      </Stack>
+        {todo.text}
+      </Typography>
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={() => onDelete(todo.id)}
+      >
+        Delete
+      </Button>
     </li>
   );
 }

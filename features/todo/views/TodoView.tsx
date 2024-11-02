@@ -57,7 +57,7 @@ export function TodoView() {
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
 
-      <ul>
+      <ul className="flex flex-col gap-2">
         {todoList.map((todo) => (
           <TodoItem
             key={todo.id}
