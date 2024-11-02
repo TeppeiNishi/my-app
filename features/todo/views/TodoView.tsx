@@ -45,7 +45,7 @@ export function TodoView() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-6 max-w-xl mx-auto">
+    <div className="flex flex-col gap-4 p-6 max-w-xl mx-auto w-full h-full">
       <h1 className="text-3xl">ToDo List</h1>
 
       <div className="flex w-full max-w-sm items-center space-x-2">
