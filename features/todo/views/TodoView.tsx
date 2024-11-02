@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button, List, TextField } from "@mui/material";
+import { List } from "@mui/material";
 import { TodoItem } from "../components/TodoItem";
 import { setTodoList } from "@/lib/features/todo/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function TodoView() {
   const [newTodo, setNewTodo] = useState("");
@@ -46,16 +48,13 @@ export function TodoView() {
     <div className="flex flex-col gap-4 p-6 max-w-xl mx-auto">
       <h1 className="text-3xl">Todo List</h1>
 
-      <div className="flex flex-row gap-4">
-        <TextField
+      <div className="flex w-full max-w-sm items-center space-x-2">
+        <Input
           value={newTodo}
           placeholder="Add a new task"
-          size="small"
           onChange={(e) => setNewTodo(e.target.value)}
         />
-        <Button variant="contained" onClick={handleAddTodo}>
-          Add
-        </Button>
+        <Button onClick={handleAddTodo}>Add</Button>
       </div>
 
       <List>
