@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { Todo } from "../types/todo";
 
 type TodoItemProps = Readonly<{
@@ -15,14 +15,9 @@ export function TodoItem({ todo, onToggleComplete, onDelete }: TodoItemProps) {
         checked={todo.completed}
         onCheckedChange={() => onToggleComplete(todo.id)}
       />
-      <Typography
-        sx={{
-          textDecoration: todo.completed ? "line-through" : "none",
-          width: "100%",
-        }}
-      >
+      <p className={`w-full ${todo.completed ? "line-through" : ""}`}>
         {todo.text}
-      </Typography>
+      </p>
       <Button
         variant="outlined"
         color="error"
