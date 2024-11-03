@@ -3,11 +3,10 @@
 import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { TodoList } from '../components/TodoList'
+import { TodoCard } from '../components/TodoCard'
 
 export function TodoView() {
   const [newTodo, setNewTodo] = useState('')
@@ -68,32 +67,19 @@ export function TodoView() {
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
 
-      <div className="flex flex-col gap-2 h-full">
-        <Card>
-          <CardHeader>
-            <CardTitle>My Task</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TodoList
-              todoList={uncompletedTodoList}
-              onToggleComplete={handleToggleComplete}
-              onDelete={handleDeleteTodo}
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Completed</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TodoList
-              todoList={completedTodoList}
-              onToggleComplete={handleToggleComplete}
-              onDelete={handleDeleteTodo}
-            />
-          </CardContent>
-        </Card>
+      <div className="flex flex-col gap-4 h-full">
+        <TodoCard
+          title="My Task"
+          todoList={uncompletedTodoList}
+          onToggleComplete={handleToggleComplete}
+          onDelete={handleDeleteTodo}
+        />
+        <TodoCard
+          title="Completed"
+          todoList={completedTodoList}
+          onToggleComplete={handleToggleComplete}
+          onDelete={handleDeleteTodo}
+        />
       </div>
     </div>
   )
