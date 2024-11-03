@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { TodoItem } from '../components/TodoItem'
+import { TodoList } from '../components/TodoList'
 
 export function TodoView() {
   const [newTodo, setNewTodo] = useState('')
@@ -44,6 +45,16 @@ export function TodoView() {
     dispatch(setTodoList(updatedTodoList))
   }
 
+  const uncompletedTodoList = useMemo(
+    () => todoList.filter((todo) => !todo.completed),
+    [todoList]
+  )
+
+  const completedTodoList = useMemo(
+    () => todoList.filter((todo) => todo.completed),
+    [todoList]
+  )
+
   return (
     <div className="flex flex-col gap-4 p-6 max-w-xl mx-auto w-full h-full">
       <h1 className="text-3xl">ToDo List</h1>
@@ -57,16 +68,33 @@ export function TodoView() {
         <Button onClick={handleAddTodo}>Add</Button>
       </div>
 
-      <ul className="flex flex-col gap-2">
-        {todoList.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggleComplete={() => handleToggleComplete(todo.id)}
-            onDelete={() => handleDeleteTodo(todo.id)}
-          />
-        ))}
-      </ul>
+      <div className="flex flex-col gap-2 h-full">
+        <Card>
+          <CardHeader>
+            <CardTitle>My Task</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TodoList
+              todoList={uncompletedTodoList}
+              onToggleComplete={handleToggleComplete}
+              onDelete={handleDeleteTodo}
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Completed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TodoList
+              todoList={completedTodoList}
+              onToggleComplete={handleToggleComplete}
+              onDelete={handleDeleteTodo}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
