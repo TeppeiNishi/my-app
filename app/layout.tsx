@@ -1,6 +1,7 @@
 import { AppSidebar } from '@/components/AppSidebar'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -29,6 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleTagManager gtmId="GTM-TJJBHMC5" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
