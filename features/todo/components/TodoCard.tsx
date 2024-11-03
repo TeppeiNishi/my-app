@@ -1,18 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TodoList } from '../components/TodoList'
-import { Todo } from '../types/todo'
+import { TodoList, TodoListProps } from '../components/TodoList'
 
-type TodoCardProps = Readonly<{
-  title: string
-  todoList: Todo[]
-  onToggleComplete: (id: number) => void
-  onDelete: (id: number) => void
-}>
+type TodoCardProps = Readonly<
+  {
+    title: string
+  } & Pick<
+    TodoListProps,
+    'todoList' | 'onToggleComplete' | 'onEdit' | 'onDelete'
+  >
+>
 
 export function TodoCard({
   title,
   todoList,
   onToggleComplete,
+  onEdit,
   onDelete,
 }: TodoCardProps) {
   return (
@@ -24,6 +26,7 @@ export function TodoCard({
         <TodoList
           todoList={todoList}
           onToggleComplete={onToggleComplete}
+          onEdit={onEdit}
           onDelete={onDelete}
         />
       </CardContent>

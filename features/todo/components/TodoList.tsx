@@ -1,15 +1,16 @@
 import { Todo } from '../types/todo'
-import { TodoListItem } from './TodoListItem'
+import { TodoListItem, TodoListItemProps } from './TodoListItem'
 
-type TodoListProps = Readonly<{
-  todoList: Todo[]
-  onToggleComplete: (id: number) => void
-  onDelete: (id: number) => void
-}>
+export type TodoListProps = Readonly<
+  {
+    todoList: Todo[]
+  } & Pick<TodoListItemProps, 'onToggleComplete' | 'onEdit' | 'onDelete'>
+>
 
 export function TodoList({
   todoList,
   onToggleComplete,
+  onEdit,
   onDelete,
 }: TodoListProps) {
   return (
@@ -18,8 +19,9 @@ export function TodoList({
         <TodoListItem
           key={todo.id}
           todo={todo}
-          onToggleComplete={() => onToggleComplete(todo.id)}
-          onDelete={() => onDelete(todo.id)}
+          onToggleComplete={onToggleComplete}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
       ))}
     </ul>
