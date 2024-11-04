@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -21,6 +21,8 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { TodoCard } from '../components/TodoCard'
 import { TodoEditForm } from '../components/TodoEditForm'
 import { Todo } from '../types/todo'
+import { fetchTodoList } from '../api/fetchTodoList'
+import { createTodo } from '../api/createTodo'
 
 const formSchema = z.object({
   task: z.string().min(1, {
@@ -32,15 +34,25 @@ export function TodoView() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
 
+  const todoList = useAppSelector((state) => state.todo.todoList)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetchTodoList()
+      if (data) {
+        dispatch(setTodoList(todoList))
+      }
+    }
+    fetchData()
+  }, [dispatch, todoList])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       task: '',
     },
   })
-
-  const todoList = useAppSelector((state) => state.todo.todoList)
-  const dispatch = useAppDispatch()
 
   const uncompletedTodoList = useMemo(
     () => todoList.filter((todo) => !todo.completed),
@@ -52,15 +64,12 @@ export function TodoView() {
     [todoList]
   )
 
-  function handleAddTodo(values: z.infer<typeof formSchema>) {
-    const updatedTodoList = [
-      ...todoList,
-      {
-        id: Date.now(),
-        text: values.task,
-        completed: false,
-      },
-    ]
+  async function handleAddTodo(data: z.infer<typeof formSchema>) {
+    const newTodo = await createTodo({
+      text: data.task,
+      completed: false,
+    })
+    const updatedTodoList = [...todoList, newTodo]
     dispatch(setTodoList(updatedTodoList))
     form.reset()
   }
