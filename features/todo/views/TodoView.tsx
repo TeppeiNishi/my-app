@@ -1,5 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
 import { Button } from '@/components/ui/button'
 import { Dialog } from '@/components/ui/dialog'
 import {
@@ -12,11 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { TodoCard } from '../components/TodoCard'
 import { TodoEditForm } from '../components/TodoEditForm'
 import { Todo } from '../types/todo'
@@ -144,7 +145,7 @@ export function TodoView() {
         {selectedTodo && (
           <TodoEditForm
             key={selectedTodo.id}
-            todo={selectedTodo}
+            todoId={selectedTodo.id}
             onSubmit={handleUpdateTodo}
           />
         )}

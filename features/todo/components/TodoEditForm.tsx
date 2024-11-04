@@ -1,5 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { LoaderIcon } from 'lucide-react'
+import { z } from 'zod'
+
 import { Button } from '@/components/ui/button'
 import {
   DialogContent,
@@ -16,13 +21,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { useAppSelector } from '@/lib/hooks'
+
 import { Todo } from '../types/todo'
 
 type TodoEditFormProps = {
-  todo: Todo
+  todoId: number
   onSubmit: (todo: Todo) => void
 }
 
@@ -32,13 +36,28 @@ const formSchema = z.object({
   }),
 })
 
-export function TodoEditForm({ todo, onSubmit }: Readonly<TodoEditFormProps>) {
+export function TodoEditForm({
+  todoId,
+  onSubmit,
+}: Readonly<TodoEditFormProps>) {
+  const todo = useAppSelector((state) =>
+    state.todo.todoList.find((todo) => todo.id === todoId)
+  )
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      task: todo.text,
+      task: todo?.text,
     },
   })
+
+  if (!todo) {
+    return (
+      <DialogContent className="flex items-center justify-center">
+        <LoaderIcon className="animate-spin" />
+      </DialogContent>
+    )
+  }
 
   return (
     <DialogContent>
@@ -51,6 +70,7 @@ export function TodoEditForm({ todo, onSubmit }: Readonly<TodoEditFormProps>) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((data) => {
+            if (!todo) return
             onSubmit({
               ...todo,
               text: data.task,
