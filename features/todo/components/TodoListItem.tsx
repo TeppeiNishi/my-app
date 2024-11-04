@@ -1,20 +1,21 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+
 import { Todo } from '../types/todo'
 
-export type TodoListItemProps = Readonly<{
+export type TodoListItemProps = {
   todo: Todo
   onToggleComplete: (id: number) => void
   onEdit: (id: number) => void
   onDelete: (id: number) => void
-}>
+}
 
 export function TodoListItem({
   todo,
   onToggleComplete,
   onEdit,
   onDelete,
-}: TodoListItemProps) {
+}: Readonly<TodoListItemProps>) {
   return (
     <li className="flex items-center gap-2">
       <Checkbox
