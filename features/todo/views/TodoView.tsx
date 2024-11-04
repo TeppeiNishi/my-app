@@ -45,7 +45,8 @@ export function TodoView() {
       }
     }
     fetchData()
-  }, [dispatch, todoList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
