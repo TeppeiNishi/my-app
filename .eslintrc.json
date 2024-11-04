@@ -12,6 +12,12 @@
         "groups": ["builtin", "external", "internal"],
         "newlines-between": "always"
       }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
     ]
   }
 }
