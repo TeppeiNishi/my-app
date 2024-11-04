@@ -1,9 +1,11 @@
-import { AppSidebar } from '@/components/AppSidebar'
-import { ThemeProvider } from '@/components/ThemeProvider'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+
+import { AppSidebar } from '@/components/AppSidebar'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+
 import './globals.css'
 import StoreProvider from './StoreProvider'
 

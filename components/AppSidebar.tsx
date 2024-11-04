@@ -1,3 +1,7 @@
+import Link from 'next/link'
+import { CheckSquare, Home, type LucideIcon } from 'lucide-react'
+import { Route } from 'next'
+
 import {
   Sidebar,
   SidebarContent,
@@ -10,10 +14,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import Link from 'next/link'
-
-import { CheckSquare, Home, LucideIcon } from 'lucide-react'
-import { Route } from 'next'
 
 type Item = {
   title: string

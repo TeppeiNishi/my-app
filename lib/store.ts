@@ -1,5 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
-import todoReducer from "./features/todo/todoSlice";
+import { configureStore } from '@reduxjs/toolkit'
 import {
   persistStore,
   persistReducer,
@@ -9,16 +8,18 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
+import todoReducer from './features/todo/todoSlice'
 
 const persistConfigTodo = {
-  key: "todo",
+  key: 'todo',
   version: 1,
   storage,
-};
+}
 
-const persistedTodoReducer = persistReducer(persistConfigTodo, todoReducer);
+const persistedTodoReducer = persistReducer(persistConfigTodo, todoReducer)
 
 export const store = configureStore({
   reducer: {
@@ -30,10 +31,10 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-});
+})
 
-export const persistor = persistStore(store);
+export const persistor = persistStore(store)
 
-export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
+export type AppStore = typeof store
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']
