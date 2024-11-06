@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { PropsWithChildren } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,6 +25,7 @@ import { useAppSelector } from '@/lib/hooks'
 import { Loading } from '@/components/Loading'
 
 import { Todo } from '../types/todo'
+import { useFetchTodo } from '../api/fetchTodo'
 
 type TodoEditFormProps = {
   todoId: number
@@ -36,10 +38,25 @@ const formSchema = z.object({
   }),
 })
 
+function Wrapper({ children }: Readonly<PropsWithChildren>) {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Edit Task</DialogTitle>
+        <DialogDescription>
+          Edit the task below and click save to update it.
+        </DialogDescription>
+      </DialogHeader>
+      {children}
+    </DialogContent>
+  )
+}
+
 export function TodoEditForm({
   todoId,
   onSubmit,
 }: Readonly<TodoEditFormProps>) {
+  const { data } = useFetchTodo(todoId)
   const todo = useAppSelector((state) =>
     state.todo.todoList.find((todo) => todo.id === todoId)
   )
@@ -51,22 +68,16 @@ export function TodoEditForm({
     },
   })
 
-  if (!todo) {
+  if (!data) {
     return (
-      <DialogContent className="flex items-center justify-center">
+      <Wrapper>
         <Loading />
-      </DialogContent>
+      </Wrapper>
     )
   }
 
   return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Edit Task</DialogTitle>
-        <DialogDescription>
-          Edit the task below and click save to update it.
-        </DialogDescription>
-      </DialogHeader>
+    <Wrapper>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((data) => {
@@ -94,6 +105,6 @@ export function TodoEditForm({
           </DialogFooter>
         </form>
       </Form>
-    </DialogContent>
+    </Wrapper>
   )
 }

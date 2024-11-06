@@ -32,13 +32,13 @@ const formSchema = z.object({
 })
 
 export function TodoView() {
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
-
-  const todoList = useAppSelector((state) => state.todo.todoList)
-  const dispatch = useAppDispatch()
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
   const { data } = useFetchTodoList()
+  const todoList = useAppSelector((state) => state.todo.todoList)
+
+  const dispatch = useAppDispatch()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
