@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { LoaderIcon } from 'lucide-react'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -22,6 +21,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAppSelector } from '@/lib/hooks'
+import { Loading } from '@/components/Loading'
 
 import { Todo } from '../types/todo'
 
@@ -54,7 +54,7 @@ export function TodoEditForm({
   if (!todo) {
     return (
       <DialogContent className="flex items-center justify-center">
-        <LoaderIcon className="animate-spin" />
+        <Loading />
       </DialogContent>
     )
   }

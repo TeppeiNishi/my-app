@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -17,11 +17,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { Loading } from '@/components/Loading'
 
 import { TodoCard } from '../components/TodoCard'
 import { TodoEditForm } from '../components/TodoEditForm'
 import { Todo } from '../types/todo'
-import { fetchTodoList } from '../api/fetchTodoList'
+import { useFetchTodoList } from '../api/fetchTodoList'
 import { createTodo } from '../api/createTodo'
 
 const formSchema = z.object({
@@ -37,16 +38,7 @@ export function TodoView() {
   const todoList = useAppSelector((state) => state.todo.todoList)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await fetchTodoList()
-      if (data) {
-        dispatch(setTodoList(todoList))
-      }
-    }
-    fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const { data } = useFetchTodoList()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -106,6 +98,10 @@ export function TodoView() {
     )
     dispatch(setTodoList(updatedTodoList))
     setIsEditDialogOpen(false)
+  }
+
+  if (!data) {
+    return <Loading />
   }
 
   return (
