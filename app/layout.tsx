@@ -1,13 +1,16 @@
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { ReactNode } from 'react'
 
 import { AppSidebar } from '@/components/AppSidebar'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
 import './globals.css'
+
 import StoreProvider from './StoreProvider'
+import Providers from './providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -37,15 +40,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <StoreProvider>
-            <SidebarProvider>
-              <AppSidebar />
-              <main className="flex flex-col flex-1 w-full">
-                <SidebarTrigger />
-                {children}
-              </main>
-            </SidebarProvider>
-          </StoreProvider>
+          <Providers>
+            <StoreProvider>
+              <SidebarProvider>
+                <AppSidebar />
+                <main className="flex flex-col flex-1 w-full">
+                  <SidebarTrigger />
+                  {children}
+                </main>
+              </SidebarProvider>
+            </StoreProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
