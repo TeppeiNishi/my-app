@@ -5,7 +5,6 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button } from '@/components/ui/button'
 import { Dialog } from '@/components/ui/dialog'
 import {
   Form,
@@ -18,12 +17,13 @@ import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Loading } from '@/components/Loading'
+import { AppButton } from '@/components/AppButton'
 
 import { TodoCard } from '../components/TodoCard'
 import { TodoEditForm } from '../components/TodoEditForm'
 import { Todo } from '../types/todo'
 import { useFetchTodoList } from '../api/fetchTodoList'
-import { createTodo } from '../api/createTodo'
+import { useCreateTodo } from '../api/createTodo'
 
 const formSchema = z.object({
   task: z.string().min(1, {
@@ -57,8 +57,10 @@ export function TodoView() {
     [todoList]
   )
 
+  const createTodo = useCreateTodo()
+
   async function handleAddTodo(data: z.infer<typeof formSchema>) {
-    const newTodo = await createTodo({
+    const newTodo = await createTodo.mutateAsync({
       text: data.task,
       completed: false,
     })
@@ -124,7 +126,9 @@ export function TodoView() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Add</Button>
+              <AppButton loading={createTodo.isPending} type="submit">
+                Add
+              </AppButton>
             </div>
           </form>
         </Form>
