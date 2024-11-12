@@ -60,13 +60,19 @@ export function TodoView() {
   const createTodo = useCreateTodo()
 
   async function handleAddTodo(data: z.infer<typeof formSchema>) {
-    const newTodo = await createTodo.mutateAsync({
-      text: data.task,
-      completed: false,
-    })
-    const updatedTodoList = [...todoList, newTodo]
-    dispatch(setTodoList(updatedTodoList))
-    form.reset()
+    createTodo.mutate(
+      {
+        text: data.task,
+        completed: false,
+      },
+      {
+        onSuccess: (newTodo) => {
+          const updatedTodoList = [...todoList, newTodo]
+          dispatch(setTodoList(updatedTodoList))
+          form.reset()
+        },
+      }
+    )
   }
 
   function handleToggleComplete(id: number) {
