@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { apiClient } from '@/api/apiClient'
+
 import { Todo } from '../types/todo'
 
 function fetchTodoList(): Promise<Todo[]> {
-  return fetch('/api/todo').then((res) => res.json())
+  return apiClient.get('/todo').then((response) => response.data)
 }
 
 export function useFetchTodoList() {

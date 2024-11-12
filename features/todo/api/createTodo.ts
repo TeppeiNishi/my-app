@@ -1,14 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 
+import { apiClient } from '@/api/apiClient'
+
 import { Todo } from '../types/todo'
 
 type Payload = Omit<Todo, 'id'>
 
 function createTodo(payload: Payload): Promise<Todo> {
-  return fetch('/api/todo', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  }).then((res) => res.json())
+  return apiClient.post('/todo', payload).then((response) => response.data)
 }
 
 export function useCreateTodo() {
