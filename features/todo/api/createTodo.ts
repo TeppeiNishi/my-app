@@ -6,8 +6,9 @@ import { Todo } from '../types/todo'
 
 type Payload = Omit<Todo, 'id'>
 
-function createTodo(payload: Payload): Promise<Todo> {
-  return apiClient.post('/todo', payload).then((response) => response.data)
+async function createTodo(payload: Payload): Promise<Todo> {
+  const response = await apiClient.post('/todo', payload)
+  return response.data
 }
 
 export function useCreateTodo() {

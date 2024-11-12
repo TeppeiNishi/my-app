@@ -4,8 +4,9 @@ import { apiClient } from '@/api/apiClient'
 
 import { Todo } from '../types/todo'
 
-function fetchTodo(todoId: number): Promise<Todo[]> {
-  return apiClient.get(`/todo/${todoId}`).then((response) => response.data)
+async function fetchTodo(todoId: number): Promise<Todo> {
+  const response = await apiClient.get(`/todo/${todoId}`)
+  return response.data
 }
 
 export function useFetchTodo(todoId: number) {

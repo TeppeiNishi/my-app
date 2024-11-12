@@ -4,8 +4,9 @@ import { apiClient } from '@/api/apiClient'
 
 import { Todo } from '../types/todo'
 
-function fetchTodoList(): Promise<Todo[]> {
-  return apiClient.get('/todo').then((response) => response.data)
+async function fetchTodoList(): Promise<Todo[]> {
+  const response = await apiClient.get('/todo')
+  return response.data
 }
 
 export function useFetchTodoList() {
