@@ -15,3 +15,7 @@ export async function PUT(req: Request) {
 
   return NextResponse.json(updatedTodo)
 }
+
+export async function DELETE() {
+  return NextResponse.json({})
+}

@@ -3,24 +3,13 @@ import { TodoListItem, TodoListItemProps } from './TodoListItem'
 
 export type TodoListProps = {
   todoList: Todo[]
-} & Pick<TodoListItemProps, 'onToggleComplete' | 'onEdit' | 'onDelete'>
+} & Pick<TodoListItemProps, 'onToggleComplete' | 'onEdit' | 'onDeleted'>
 
-export function TodoList({
-  todoList,
-  onToggleComplete,
-  onEdit,
-  onDelete,
-}: Readonly<TodoListProps>) {
+export function TodoList({ todoList, ...restProps }: Readonly<TodoListProps>) {
   return (
     <ul className="flex flex-col gap-2">
       {todoList.map((todo) => (
-        <TodoListItem
-          key={todo.id}
-          todo={todo}
-          onToggleComplete={onToggleComplete}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <TodoListItem key={todo.id} todo={todo} {...restProps} />
       ))}
     </ul>
   )

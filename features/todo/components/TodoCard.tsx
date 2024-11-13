@@ -4,27 +4,19 @@ import { TodoList, TodoListProps } from '../components/TodoList'
 
 type TodoCardProps = {
   title: string
-} & Pick<TodoListProps, 'todoList' | 'onToggleComplete' | 'onEdit' | 'onDelete'>
+} & Pick<
+  TodoListProps,
+  'todoList' | 'onToggleComplete' | 'onEdit' | 'onDeleted'
+>
 
-export function TodoCard({
-  title,
-  todoList,
-  onToggleComplete,
-  onEdit,
-  onDelete,
-}: Readonly<TodoCardProps>) {
+export function TodoCard({ title, ...restProps }: Readonly<TodoCardProps>) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <TodoList
-          todoList={todoList}
-          onToggleComplete={onToggleComplete}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <TodoList {...restProps} />
       </CardContent>
     </Card>
   )

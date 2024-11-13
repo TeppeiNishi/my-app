@@ -10,10 +10,10 @@ type AppButtonProps = ButtonProps & {
 export function AppButton({
   loading,
   children,
-  ...props
+  ...restProps
 }: PropsWithChildren<AppButtonProps>) {
   return (
-    <Button type="submit" disabled={loading} {...props}>
+    <Button type="submit" disabled={loading} {...restProps}>
       <span className={loading ? 'invisible' : ''}>{children}</span>
       {loading && <Loader2 className="absolute animate-spin" />}
     </Button>

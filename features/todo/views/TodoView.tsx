@@ -61,7 +61,7 @@ export function TodoView() {
   const createTodo = useCreateTodo()
   const updateTodo = useUpdateTodo()
 
-  async function handleAddTodo(data: z.infer<typeof formSchema>) {
+  function handleAddTodo(data: z.infer<typeof formSchema>) {
     createTodo.mutate(
       {
         text: data.task,
@@ -101,11 +101,6 @@ export function TodoView() {
     }
   }
 
-  function handleDeleteTodo(id: number) {
-    const updatedTodoList = todoList.filter((todo) => todo.id !== id)
-    dispatch(setTodoList(updatedTodoList))
-  }
-
   function handleUpdateTodo(todo: Todo) {
     updateTodo.mutate(todo, {
       onSuccess: (updatedTodo) => {
@@ -118,9 +113,28 @@ export function TodoView() {
     })
   }
 
+  function handleDeleted(todoId: number) {
+    const updatedTodoList = todoList.filter((todo) => todo.id !== todoId)
+    dispatch(setTodoList(updatedTodoList))
+  }
+
   if (!data) {
     return <Loading />
   }
+
+  const todoSections: {
+    title: string
+    todoList: Todo[]
+  }[] = [
+    {
+      title: 'My Task',
+      todoList: uncompletedTodoList,
+    },
+    {
+      title: 'Completed',
+      todoList: completedTodoList,
+    },
+  ]
 
   return (
     <>
@@ -150,20 +164,16 @@ export function TodoView() {
         </Form>
 
         <div className="flex h-full flex-col gap-4">
-          <TodoCard
-            title="My Task"
-            todoList={uncompletedTodoList}
-            onToggleComplete={handleToggleComplete}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-          />
-          <TodoCard
-            title="Completed"
-            todoList={completedTodoList}
-            onToggleComplete={handleToggleComplete}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-          />
+          {todoSections.map(({ title, todoList }) => (
+            <TodoCard
+              key={title}
+              title={title}
+              todoList={todoList}
+              onToggleComplete={handleToggleComplete}
+              onEdit={handleEditTodo}
+              onDeleted={handleDeleted}
+            />
+          ))}
         </div>
       </div>
 
