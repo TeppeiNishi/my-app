@@ -172,6 +172,7 @@ export function TodoView() {
           <TodoEditForm
             key={selectedTodo.id}
             todoId={selectedTodo.id}
+            isSubmitting={updateTodo.isPending}
             onSubmit={handleUpdateTodo}
           />
         )}

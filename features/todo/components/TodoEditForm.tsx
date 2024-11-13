@@ -1,11 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PropsWithChildren } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { PropsWithChildren } from 'react'
 
-import { Button } from '@/components/ui/button'
+import { AppButton } from '@/components/AppButton'
+import { Loading } from '@/components/Loading'
 import {
   DialogContent,
   DialogDescription,
@@ -22,13 +23,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAppSelector } from '@/lib/hooks'
-import { Loading } from '@/components/Loading'
 
-import { Todo } from '../types/todo'
 import { useFetchTodo } from '../api/fetchTodo'
+import { Todo } from '../types/todo'
 
 type TodoEditFormProps = {
   todoId: number
+  isSubmitting: boolean
   onSubmit: (todo: Todo) => void
 }
 
@@ -54,11 +55,12 @@ function Wrapper({ children }: Readonly<PropsWithChildren>) {
 
 export function TodoEditForm({
   todoId,
+  isSubmitting,
   onSubmit,
 }: Readonly<TodoEditFormProps>) {
   const { data } = useFetchTodo(todoId)
   const todo = useAppSelector((state) =>
-    state.todo.todoList.find((todo) => todo.id === todoId)
+    state.todo.todoList.find((todo) => todo.id === todoId),
   )
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -101,7 +103,9 @@ export function TodoEditForm({
             )}
           />
           <DialogFooter className="mt-4">
-            <Button type="submit">Save</Button>
+            <AppButton type="submit" loading={isSubmitting}>
+              Save
+            </AppButton>
           </DialogFooter>
         </form>
       </Form>

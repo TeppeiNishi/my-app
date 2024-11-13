@@ -14,8 +14,7 @@ export function AppButton({
 }: PropsWithChildren<AppButtonProps>) {
   return (
     <Button type="submit" disabled={loading} {...props}>
-      {loading && <Loader2 className="animate-spin" />}
-      {children}
+      {loading ? <Loader2 className="animate-spin" /> : children}
     </Button>
   )
 }
