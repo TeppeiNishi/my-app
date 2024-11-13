@@ -4,7 +4,8 @@
     "next/typescript",
     "plugin:import/recommended",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": ["import"],
   "rules": {
