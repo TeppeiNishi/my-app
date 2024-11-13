@@ -3,7 +3,7 @@ import { TodoListItem, TodoListItemProps } from './TodoListItem'
 
 export type TodoListProps = {
   todoList: Todo[]
-} & Pick<TodoListItemProps, 'onToggleComplete' | 'onEdit' | 'onDeleted'>
+} & Pick<TodoListItemProps, 'onToggleComplete' | 'onEdit' | 'onDelete'>
 
 export function TodoList({ todoList, ...restProps }: Readonly<TodoListProps>) {
   return (

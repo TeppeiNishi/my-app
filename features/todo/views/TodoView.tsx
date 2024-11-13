@@ -7,6 +7,15 @@ import { z } from 'zod'
 
 import { AppButton } from '@/components/AppButton'
 import { Loading } from '@/components/Loading'
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { Dialog } from '@/components/ui/dialog'
 import {
   Form,
@@ -20,6 +29,7 @@ import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 import { useCreateTodo } from '../api/createTodo'
+import { useDeleteTodo } from '../api/deleteTodo'
 import { useFetchTodoList } from '../api/fetchTodoList'
 import { useUpdateTodo } from '../api/updateTodo'
 import { TodoCard } from '../components/TodoCard'
@@ -33,8 +43,9 @@ const formSchema = z.object({
 })
 
 export function TodoView() {
-  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
+  const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   const { data } = useFetchTodoList()
   const todoList = useAppSelector((state) => state.todo.todoList)
@@ -60,6 +71,7 @@ export function TodoView() {
 
   const createTodo = useCreateTodo()
   const updateTodo = useUpdateTodo()
+  const deleteTodo = useDeleteTodo()
 
   function handleAddTodo(data: z.infer<typeof formSchema>) {
     createTodo.mutate(
@@ -93,14 +105,6 @@ export function TodoView() {
     })
   }
 
-  function handleEditTodo(id: number) {
-    const todo = todoList.find((todo) => todo.id === id)
-    if (todo) {
-      setSelectedTodo(todo)
-      setIsEditDialogOpen(true)
-    }
-  }
-
   function handleUpdateTodo(todo: Todo) {
     updateTodo.mutate(todo, {
       onSuccess: (updatedTodo) => {
@@ -113,9 +117,14 @@ export function TodoView() {
     })
   }
 
-  function handleDeleted(todoId: number) {
-    const updatedTodoList = todoList.filter((todo) => todo.id !== todoId)
-    dispatch(setTodoList(updatedTodoList))
+  function handleDeleteTodo(todoId: number) {
+    deleteTodo.mutate(todoId, {
+      onSuccess: () => {
+        const updatedTodoList = todoList.filter((todo) => todo.id !== todoId)
+        dispatch(setTodoList(updatedTodoList))
+        setIsDeleteDialogOpen(false)
+      },
+    })
   }
 
   if (!data) {
@@ -170,23 +179,58 @@ export function TodoView() {
               title={title}
               todoList={todoList}
               onToggleComplete={handleToggleComplete}
-              onEdit={handleEditTodo}
-              onDeleted={handleDeleted}
+              onEdit={(todoId) => {
+                setSelectedTodoId(todoId)
+                setIsEditDialogOpen(true)
+              }}
+              onDelete={(todoId) => {
+                setSelectedTodoId(todoId)
+                setIsDeleteDialogOpen(true)
+              }}
             />
           ))}
         </div>
       </div>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        {selectedTodo && (
+        {selectedTodoId && (
           <TodoEditForm
-            key={selectedTodo.id}
-            todoId={selectedTodo.id}
+            key={selectedTodoId}
+            todoId={selectedTodoId}
             isSubmitting={updateTodo.isPending}
             onSubmit={handleUpdateTodo}
           />
         )}
       </Dialog>
+
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              task.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteTodo.isPending}>
+              Cancel
+            </AlertDialogCancel>
+            <AppButton
+              loading={deleteTodo.isPending}
+              onClick={() => {
+                if (selectedTodoId == null) return
+                handleDeleteTodo(selectedTodoId)
+              }}
+            >
+              Continue
+            </AppButton>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }
