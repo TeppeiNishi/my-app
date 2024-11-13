@@ -106,12 +106,16 @@ export function TodoView() {
     dispatch(setTodoList(updatedTodoList))
   }
 
-  function handleUpdateTodo(updatedTodo: Todo) {
-    const updatedTodoList = todoList.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo,
-    )
-    dispatch(setTodoList(updatedTodoList))
-    setIsEditDialogOpen(false)
+  function handleUpdateTodo(todo: Todo) {
+    updateTodo.mutate(todo, {
+      onSuccess: (updatedTodo) => {
+        const updatedTodoList = todoList.map((todo) =>
+          todo.id === updatedTodo.id ? updatedTodo : todo,
+        )
+        dispatch(setTodoList(updatedTodoList))
+        setIsEditDialogOpen(false)
+      },
+    })
   }
 
   if (!data) {
