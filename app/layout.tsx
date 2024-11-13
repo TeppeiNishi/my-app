@@ -1,3 +1,5 @@
+import './globals.css'
+
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -7,10 +9,8 @@ import { AppSidebar } from '@/components/AppSidebar'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
-import './globals.css'
-
-import StoreProvider from './StoreProvider'
 import Providers from './providers'
+import StoreProvider from './StoreProvider'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -44,7 +44,7 @@ export default function RootLayout({
             <StoreProvider>
               <SidebarProvider>
                 <AppSidebar />
-                <main className="flex flex-col flex-1 w-full">
+                <main className="flex w-full flex-1 flex-col">
                   <SidebarTrigger />
                   {children}
                 </main>

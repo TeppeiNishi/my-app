@@ -1,5 +1,5 @@
-import { TodoView } from "@/features/todo/views/TodoView";
+import { TodoView } from '@/features/todo/views/TodoView'
 
 export default function Todo() {
-  return <TodoView />;
+  return <TodoView />
 }

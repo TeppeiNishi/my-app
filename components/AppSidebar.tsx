@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { CheckSquare, Home, type LucideIcon } from 'lucide-react'
 import { Route } from 'next'
+import Link from 'next/link'
 
 import {
   Sidebar,
