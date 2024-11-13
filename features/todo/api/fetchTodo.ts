@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { apiClient } from '@/api/apiClient'
+import { apiClient } from '@/features/api/apiClient'
 
 import { Todo } from '../types/todo'
 
