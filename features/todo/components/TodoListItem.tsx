@@ -5,7 +5,7 @@ import { Todo } from '../types/todo'
 
 export type TodoListItemProps = {
   todo: Todo
-  onToggleComplete: (id: number) => void
+  onToggleComplete: (todo: Todo) => void
   onEdit: (id: number) => void
   onDelete: (id: number) => void
 }
@@ -20,7 +20,7 @@ export function TodoListItem({
     <li className="flex items-center gap-2">
       <Checkbox
         checked={todo.completed}
-        onCheckedChange={() => onToggleComplete(todo.id)}
+        onCheckedChange={() => onToggleComplete(todo)}
       />
       <p className={`w-full ${todo.completed ? 'line-through' : ''}`}>
         {todo.text}

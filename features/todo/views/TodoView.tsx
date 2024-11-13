@@ -5,6 +5,8 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { AppButton } from '@/components/AppButton'
+import { Loading } from '@/components/Loading'
 import { Dialog } from '@/components/ui/dialog'
 import {
   Form,
@@ -16,14 +18,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { setTodoList } from '@/lib/features/todo/todoSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { Loading } from '@/components/Loading'
-import { AppButton } from '@/components/AppButton'
 
+import { useCreateTodo } from '../api/createTodo'
+import { useFetchTodoList } from '../api/fetchTodoList'
+import { useUpdateTodo } from '../api/updateTodo'
 import { TodoCard } from '../components/TodoCard'
 import { TodoEditForm } from '../components/TodoEditForm'
 import { Todo } from '../types/todo'
-import { useFetchTodoList } from '../api/fetchTodoList'
-import { useCreateTodo } from '../api/createTodo'
 
 const formSchema = z.object({
   task: z.string().min(1, {
@@ -49,15 +50,16 @@ export function TodoView() {
 
   const uncompletedTodoList = useMemo(
     () => todoList.filter((todo) => !todo.completed),
-    [todoList]
+    [todoList],
   )
 
   const completedTodoList = useMemo(
     () => todoList.filter((todo) => todo.completed),
-    [todoList]
+    [todoList],
   )
 
   const createTodo = useCreateTodo()
+  const updateTodo = useUpdateTodo()
 
   async function handleAddTodo(data: z.infer<typeof formSchema>) {
     createTodo.mutate(
@@ -71,20 +73,24 @@ export function TodoView() {
           dispatch(setTodoList(updatedTodoList))
           form.reset()
         },
-      }
+      },
     )
   }
 
-  function handleToggleComplete(id: number) {
-    const updatedTodoList = todoList.map((todo) =>
-      todo.id === id
-        ? {
-            ...todo,
-            completed: !todo.completed,
-          }
-        : todo
-    )
-    dispatch(setTodoList(updatedTodoList))
+  function handleToggleComplete(todo: Todo) {
+    updateTodo.mutate(todo, {
+      onSuccess: (updatedTodo) => {
+        const updatedTodoList = todoList.map((todo) =>
+          todo.id === updatedTodo.id
+            ? {
+                ...updatedTodo,
+                completed: !todo.completed,
+              }
+            : todo,
+        )
+        dispatch(setTodoList(updatedTodoList))
+      },
+    })
   }
 
   function handleEditTodo(id: number) {
@@ -102,7 +108,7 @@ export function TodoView() {
 
   function handleUpdateTodo(updatedTodo: Todo) {
     const updatedTodoList = todoList.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
+      todo.id === updatedTodo.id ? updatedTodo : todo,
     )
     dispatch(setTodoList(updatedTodoList))
     setIsEditDialogOpen(false)
@@ -114,7 +120,7 @@ export function TodoView() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 p-4 max-w-xl mx-auto w-full h-full">
+      <div className="mx-auto flex size-full max-w-xl flex-col gap-4 p-4">
         <h1 className="text-3xl">ToDo List</h1>
 
         <Form {...form}>
@@ -139,7 +145,7 @@ export function TodoView() {
           </form>
         </Form>
 
-        <div className="flex flex-col gap-4 h-full">
+        <div className="flex h-full flex-col gap-4">
           <TodoCard
             title="My Task"
             todoList={uncompletedTodoList}
