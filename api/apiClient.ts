@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://my-app-five-navy.vercel.app/api/',
 })
 
 apiClient.interceptors.response.use(
@@ -16,7 +16,7 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(new Error(error))
-  }
+  },
 )
 
 export { apiClient }
