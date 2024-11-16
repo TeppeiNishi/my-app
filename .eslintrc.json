@@ -3,9 +3,6 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:import/recommended",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "plugin:tailwindcss/recommended"
   ],
