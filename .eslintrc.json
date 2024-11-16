@@ -2,11 +2,12 @@
   "extends": [
     "airbnb",
     "airbnb/hooks",
+    "airbnb-typescript",
     "next/core-web-vitals",
     "next/typescript",
     "plugin:import/recommended",
-    "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "sourceType": "module",
