@@ -1,4 +1,4 @@
-import { CheckSquare, Home, type LucideIcon } from 'lucide-react'
+import { Book, CheckSquare, Home, type LucideIcon } from 'lucide-react'
 import { Route } from 'next'
 import Link from 'next/link'
 
@@ -31,6 +31,11 @@ const items: Item[] = [
     title: 'ToDo List',
     url: '/todo',
     icon: CheckSquare,
+  },
+  {
+    title: 'Storybook',
+    url: '/storybook',
+    icon: Book,
   },
 ]
 
