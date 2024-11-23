@@ -9,7 +9,8 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare-storybook": "npm run build-storybook && copyfiles -u 1 \"storybook-static/**/*\" public/storybook-static"
+    "prepare-storybook": "npm run build-storybook && copyfiles -u 1 \"storybook-static/**/*\" public/storybook-static",
+    "test": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -50,12 +51,15 @@
     "@storybook/nextjs": "^8.4.5",
     "@storybook/react": "^8.4.5",
     "@storybook/test": "^8.4.5",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react": "^4.3.3",
     "copyfiles": "^2.4.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.0.3",
@@ -67,10 +71,14 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-storybook": "^0.11.1",
     "eslint-plugin-tailwindcss": "^3.17.5",
+    "jsdom": "^25.0.1",
     "postcss": "^8",
     "storybook": "^8.4.5",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vite-tsconfig-paths": "^5.1.3",
+    "vitest": "^2.1.5",
+    "vitest-browser-react": "^0.0.3"
   },
   "volta": {
     "node": "18.20.4"
