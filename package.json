@@ -11,7 +11,7 @@
     "build-storybook": "storybook build",
     "prepare-storybook": "npm run build-storybook && copyfiles -u 1 \"storybook-static/**/*\" public/storybook-static",
     "test": "vitest",
-    "test:run": "vitest --run"
+    "test:run": "NODE_ENV=test vitest --run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
