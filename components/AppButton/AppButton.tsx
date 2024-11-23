@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 
-type AppButtonProps = ButtonProps & {
+type AppButtonProps = {
   loading?: boolean
 }
 
 export function AppButton({
-  loading,
+  loading = false,
   children,
   ...restProps
 }: PropsWithChildren<AppButtonProps>) {
