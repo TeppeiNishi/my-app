@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react'
 
 import { Button, ButtonProps } from '@/components/ui/button'
 
-type AppButtonProps = ButtonProps & {
+export type AppButtonProps = ButtonProps & {
   loading?: boolean
 }
 
